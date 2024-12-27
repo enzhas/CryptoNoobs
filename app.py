@@ -51,7 +51,7 @@ def register():
         name = form.name.data
 
         #make sure user does not already exist
-        if isnewuser(username):
+        if is_new_user(username):
             #add the user to mysql and log them in
             password = sha256_crypt.encrypt(form.password.data)
             users.insert(name,email,username,password)

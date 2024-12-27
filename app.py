@@ -34,7 +34,7 @@ def is_logged_in(f):
 
 def log_in_user(username):
     users = Table("users", "name", "email", "username", "password")
-    user = users.getone("username", username)
+    user = users.get_one("username", username)
 
     session['logged_in'] = True
     session['username'] = username
@@ -72,7 +72,7 @@ def login():
 
         #access users table to get the user's actual password
         users = Table("users", "name", "email", "username", "password")
-        user = users.getone("username", username)
+        user = users.get_one("username", username)
         accPass = user.get('password')
 
         #if the password cannot be found, the user does not exist

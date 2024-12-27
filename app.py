@@ -1,24 +1,30 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, request, logging
 from passlib.hash import sha256_crypt
-from flask_mysqldb import MySQL
 from functools import wraps
-
+import psycopg2
+from psycopg2.extras import DictCursor
 from sqlhelpers import *
 from forms import *
-
 import time
+from flask import g
 
 app = Flask(__name__)
 
-#configure mysql
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = '1234'
-app.config['MYSQL_DB'] = 'crypto'
-app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+# Configure PostgreSQL
+DATABASE_URL = "postgres://neondb_owner:qYeDo92VtPAI@ep-sparkling-surf-a5683xkm-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
 
+def get_db_connection():
+    return psycopg2.connect(DATABASE_URL, cursor_factory=DictCursor)
 
-mysql = MySQL(app)
+@app.before_request
+def before_request():
+    g.db = get_db_connection()
+
+@app.teardown_request
+def teardown_request(exception):
+    if hasattr(g, 'db'):
+        g.db.close()
+
 
 # decorator to define if the user is currently logged in from session
 def is_logged_in(f):

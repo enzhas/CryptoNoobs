@@ -1,4 +1,5 @@
-from app import session, get_db_connection
+from app import session
+from db import get_db_connection
 from blockchain import Block, Blockchain
 
 

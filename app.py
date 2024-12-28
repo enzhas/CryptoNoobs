@@ -12,11 +12,16 @@ import secrets
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_PERMANENT'] = False  # Optional: Adjust as needed
+app.config['SESSION_PERMANENT'] = True  # Optional: Adjust as needed
+app.config['SESSION_COOKIE_SECURE'] = True  # Only send over HTTPS
+app.config['SESSION_COOKIE_HTTPONLY'] = True 
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=2)  # Set lifetime to 1 year
+
 
 @app.before_request
 def before_request():
     g.db = get_db_connection()
+    session.permanent = True
 
 @app.teardown_request
 def teardown_request(exception):

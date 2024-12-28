@@ -12,9 +12,9 @@ from flask_session import Session
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
-app.config['SESSION_COOKIE_SECURE'] = True  # Ensures cookies are sent only over HTTPS
-app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevents access to cookies from JavaScript
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Helps mitigate CSRF attacks
+# app.config['SESSION_COOKIE_SECURE'] = True  # Ensures cookies are sent only over HTTPS
+# app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevents access to cookies from JavaScript
+# app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Helps mitigate CSRF attacks
 # app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # Set lifetime to 1 year
 
 @app.before_request

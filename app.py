@@ -40,7 +40,7 @@ def teardown_request(exception):
 def is_logged_in(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if 'logged_in' in session:
+        if session['logged_in'] == True:
             # print("session")
             return f(*args, **kwargs)
         else:

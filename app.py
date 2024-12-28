@@ -12,10 +12,17 @@ from flask_session import Session
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
-# app.config['SESSION_COOKIE_SECURE'] = True  # Ensures cookies are sent only over HTTPS
-# app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevents access to cookies from JavaScript
-# app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Helps mitigate CSRF attacks
-# app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # Set lifetime to 1 year
+
+# Configure Flask-Session
+app.config['SESSION_TYPE'] = 'filesystem'  # This will store sessions on the server filesystem
+app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_USE_SIGNER'] = True  # Ensures the session cookie is signed
+app.config['SESSION_COOKIE_HTTPONLY'] = True  # Ensures cookies are not accessible from JavaScript
+app.config['SESSION_COOKIE_SECURE'] = True  # Set to True if using HTTPS
+app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # 1 hour session lifetime
+
+# Initialize Flask-Session
+Session(app)
 
 @app.before_request
 def before_request():
@@ -34,6 +41,7 @@ def is_logged_in(f):
     @wraps(f)
     def wrap(*args, **kwargs):
         if 'logged_in' in session:
+            # print("session")
             return f(*args, **kwargs)
         else:
             flash("Unauthorized, please login.", "danger")

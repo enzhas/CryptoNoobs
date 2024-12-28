@@ -13,7 +13,6 @@ app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_PERMANENT'] = False  # Optional: Adjust as needed
-Session(app)
 
 @app.before_request
 def before_request():

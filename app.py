@@ -43,7 +43,6 @@ def log_in_user(username):
     session['username'] = username
     session['name'] = user.get('name')
     session['email'] = user.get('email')
-    session.permanent = True
 
 @app.route("/register", methods = ['GET', 'POST'])
 def register():

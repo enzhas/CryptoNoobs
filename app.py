@@ -10,6 +10,7 @@ from flask import g
 import secrets
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 
 @app.before_request
 def before_request():
@@ -145,5 +146,4 @@ def index():
     return render_template('index.html')
 
 if __name__ == '__main__':
-    app.secret_key = secrets.token_hex(16)
     app.run(debug = True)

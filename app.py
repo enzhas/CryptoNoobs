@@ -27,7 +27,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # 1 hour session lifetime
 @app.before_request
 def before_request():
     g.db = get_db_connection()
-    # session.permanent = True
+    session.permanent = False
     app.permanent_session_lifetime = 3600
 
 @app.teardown_request

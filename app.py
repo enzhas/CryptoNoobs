@@ -22,7 +22,7 @@ app.config['SESSION_COOKIE_SECURE'] = True  # Set to True if using HTTPS
 app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # 1 hour session lifetime
 
 # Initialize Flask-Session
-Session(app)
+# Session(app)
 
 @app.before_request
 def before_request():

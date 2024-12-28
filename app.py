@@ -15,7 +15,7 @@ app.secret_key = secrets.token_hex(16)
 
 # Configure Flask-Session
 app.config['SESSION_TYPE'] = 'filesystem'  # This will store sessions on the server filesystem
-app.config['SESSION_PERMANENT'] = True
+app.config['SESSION_PERMANENT'] = False
 app.config['SESSION_USE_SIGNER'] = True  # Ensures the session cookie is signed
 app.config['SESSION_COOKIE_HTTPONLY'] = True  # Ensures cookies are not accessible from JavaScript
 app.config['SESSION_COOKIE_SECURE'] = True  # Set to True if using HTTPS
@@ -27,7 +27,7 @@ app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # 1 hour session lifetime
 @app.before_request
 def before_request():
     g.db = get_db_connection()
-    session.permanent = True
+    # session.permanent = True
     app.permanent_session_lifetime = 3600
 
 @app.teardown_request

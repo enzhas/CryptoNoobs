@@ -12,17 +12,16 @@ from flask_session import Session
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
-Session(app)
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_PERMANENT'] = True  # Optional: Adjust as needed
-app.config['SESSION_COOKIE_SECURE'] = True  # Only send over HTTPS
-app.config['SESSION_COOKIE_HTTPONLY'] = True 
-app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # Set lifetime to 1 year
+app.config['SESSION_COOKIE_SECURE'] = True  # Ensures cookies are sent only over HTTPS
+app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevents access to cookies from JavaScript
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Helps mitigate CSRF attacks
+# app.config['PERMANENT_SESSION_LIFETIME'] = 3600  # Set lifetime to 1 year
 
 @app.before_request
 def before_request():
     g.db = get_db_connection()
     session.permanent = True
+    app.permanent_session_lifetime = 3600
 
 @app.teardown_request
 def teardown_request(exception):
